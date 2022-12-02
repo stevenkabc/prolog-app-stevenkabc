@@ -50,7 +50,12 @@ const ErrorType = styled.span`
 export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
   const { name, message, stack, level, numEvents } = issue;
   const firstLineOfStackTrace = stack.split("\n")[1];
-
+  let levelText = "warning";
+  if (level === IssueLevel.info) {
+    levelText = "stable";
+  } else if (level === IssueLevel.error) {
+    levelText = "critical";
+  }
   return (
     <Row>
       <IssueCell>
@@ -68,7 +73,7 @@ export function IssueRow({ projectLanguage, issue }: IssueRowProps) {
       </IssueCell>
       <Cell>
         <Badge color={levelColors[level]} size={BadgeSize.sm}>
-          {capitalize(level)}
+          {capitalize(levelText)}
         </Badge>
       </Cell>
       <Cell>{numEvents}</Cell>
